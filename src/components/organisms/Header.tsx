@@ -14,7 +14,11 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import LocalHeroesLogo from "../../assets/local-heroes-logo.png";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -57,6 +61,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const { userInfo } = React.useContext(UserContext);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -120,38 +126,72 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {userInfo ? (
+        <>
+          <MenuItem>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <p>Messages</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <p>Notifications</p>
+          </MenuItem>
+          <MenuItem onClick={handleProfileMenuOpen}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <p>Profile</p>
+          </MenuItem>
+        </>
+        ) : (<>
+          <Link to="/login" >
+            <MenuItem>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <LoginIcon />
+              </IconButton>
+              <p>Login</p>
+            </MenuItem>
+          </Link>
+          <Link to="/register">
+            <MenuItem>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <PersonAddAltIcon />
+              </IconButton>
+              <p>Signup</p>
+            </MenuItem>
+          </Link>
+        </>)
+      }
     </Menu>
   );
 
@@ -159,13 +199,22 @@ export default function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <img src={LocalHeroesLogo} alt="Local Heroes Logo" width={"80px"} style={{marginRight: "10px"}}/>
+          <Link to="/">
+            <img
+              src={LocalHeroesLogo}
+              alt="Local Heroes Logo"
+              width={"80px"}
+              style={{ marginRight: "10px" }}
+            />
+          </Link>
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
-          ></Typography>
+          >
+            Local Heroes
+          </Typography>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -177,36 +226,72 @@ export default function Header() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {userInfo ? (
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                >
+                  <Badge badgeContent={4} color="error">
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                >
+                  <Badge badgeContent={17} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </>
+            ) : (
+              <>
+                {/* SIGNUP */}
+                <Link
+                  to="/register"
+                  style={{
+                    padding: "4px 16px",
+                    color: "white",
+                    border: "2px solid white",
+                    borderRadius: "8px",
+                    margin: "0 4px",
+                  }}
+                >
+                  <Typography>Singup</Typography>
+                </Link>
+
+                {/* LOGIN */}
+                <Link
+                  to="/login"
+                  style={{
+                    padding: "4px 16px",
+                    color: "#1976d3",
+                    background: "white",
+                    border: "2px solid white",
+                    borderRadius: "8px",
+                    margin: "0 4px",
+                  }}
+                >
+                  <Typography>Login</Typography>
+                </Link>
+              </>
+            )}
           </Box>
+
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
