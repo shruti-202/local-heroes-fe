@@ -271,7 +271,7 @@ export default function Header() {
                     margin: "0 4px",
                   }}
                 >
-                  <Typography>Singup</Typography>
+                  <Typography>Signup</Typography>
                 </Link>
 
                 {/* LOGIN */}
