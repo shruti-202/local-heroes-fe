@@ -10,6 +10,7 @@ const apiCall = async (API_ENUM: API_ENUM, body?: any) => {
       const response = await fetch(params?.url, {
         method: params.method,
         headers: params.header,
+        credentials: params.credentials,
         body: JSON.stringify(body),
       });
 

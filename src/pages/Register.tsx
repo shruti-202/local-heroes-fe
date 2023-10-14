@@ -11,7 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import Container from "../components/atoms/Container";
-import axios from "axios";
+import apiCall from "../utils/apiUtils";
+import API_ENUM from "../enum/API_ENUM";
 
 const Register = () => {
   const [name, setName] = React.useState("");
@@ -35,7 +36,7 @@ const Register = () => {
 
   const handleUsernameChange = (ev: any) => {
     console.log(ev.target.value);
-    
+
     setUsername(ev.target.value);
   };
 
@@ -47,23 +48,27 @@ const Register = () => {
     setUserType(ev.target.value);
   };
 
-  const handleSubmit = () => {
-    try {
-      axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/register`, {
-        name ,
-        email ,
-        phone ,
-        username ,
-        password ,
-        userType 
-      })
-      .then((res) => console.log(res))
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setPhone("");
+    setUsername("");
+    setPassword("");
+    setUserType("");
+  };
 
-    } catch (err) {
-      console.log(err);
-      
-    }
-  }
+  const handleSubmit = async () => {
+    const data = await apiCall(API_ENUM.SIGNUP, {
+      name,
+      email,
+      phone,
+      username,
+      password,
+      userType,
+    });
+
+    if (data?.success) resetForm();
+  };
 
   return (
     <Container>
@@ -149,7 +154,9 @@ const Register = () => {
                 label="Client"
               />
             </RadioGroup>
-            <Button onClick={handleSubmit} variant="contained">Submit</Button>
+            <Button onClick={handleSubmit} variant="contained">
+              Submit
+            </Button>
           </FormControl>
         </Card>
       </div>
