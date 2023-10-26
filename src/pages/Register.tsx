@@ -35,8 +35,6 @@ const Register = () => {
   };
 
   const handleUsernameChange = (ev: any) => {
-    console.log(ev.target.value);
-
     setUsername(ev.target.value);
   };
 
