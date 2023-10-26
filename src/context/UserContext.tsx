@@ -1,31 +1,51 @@
 import { createContext, useState } from "react";
 
 interface UserInfo {
-    username: string,
-    userId: string,
+  username: string;
+  userId: string;
+  email: string;
+  phone: string;
+  type: string;
 }
 
 interface UserContextProps {
-    userInfo: UserInfo | undefined,
-    setUserInfo: React.Dispatch<React.SetStateAction<undefined>>;
+  userInfo: UserInfo;
+  setUserInfo: React.Dispatch<
+    React.SetStateAction<{
+      userId: string;
+      username: string;
+      email: string;
+      phone: string;
+      type: string;
+    }>
+  >;
 }
 
 export const UserContext = createContext<UserContextProps>({
-    userInfo: {
-        username: "",
-        userId: ""
-    },
-    setUserInfo: () => null
+  userInfo: {
+    userId: "",
+    username: "",
+    email: "",
+    phone: "",
+    type: "",
+  },
+  setUserInfo: () => null,
 });
 
-const UserContextProvider = ({children} : any) => {
-    const [userInfo, setUserInfo] = useState();
+const UserContextProvider = ({ children }: any) => {
+  const [userInfo, setUserInfo] = useState({
+    userId: "",
+    username: "",
+    email: "",
+    phone: "",
+    type: "",
+  });
 
-    return (
-        <UserContext.Provider value={{userInfo, setUserInfo}}>
-            {children}
-        </UserContext.Provider>
-    )
-}
+  return (
+    <UserContext.Provider value={{ userInfo, setUserInfo }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
-export default UserContextProvider
+export default UserContextProvider;
