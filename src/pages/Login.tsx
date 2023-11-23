@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  FormControl,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Card, FormControl, TextField, Typography } from "@mui/material";
 import Container from "../components/atoms/Container";
 import React, { useContext } from "react";
 import apiCall from "../utils/apiUtils";
@@ -80,7 +74,6 @@ const Login = () => {
               value={password}
               onChange={handlePasswordChange}
             />
-
             <Button onClick={handleSubmit} variant="contained">
               Login
             </Button>
