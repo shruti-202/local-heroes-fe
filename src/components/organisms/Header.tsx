@@ -19,6 +19,8 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import LocalHeroesLogo from "../../assets/local-heroes-logo.png";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import API_ENUM from "../../enum/API_ENUM";
+import apiCall from "../../utils/apiUtils";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,7 +52,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -61,7 +62,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const { userInfo } = React.useContext(UserContext);
+  const { userInfo, setUserInfo } = React.useContext(UserContext);
+
+  const logout = () => {
+    apiCall(API_ENUM.LOGOUT)
+    setUserInfo({
+      userId: "",
+      username: "",
+      email: "",
+      phone: "",
+      type: "",
+    })
+  }
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -106,6 +118,7 @@ export default function Header() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -126,7 +139,7 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {userInfo ? (
+      {userInfo?.userId ? (
         <>
           <MenuItem>
             <IconButton
@@ -226,7 +239,7 @@ export default function Header() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {userInfo ? (
+            {userInfo?.userId ? (
               <>
                 <IconButton
                   size="large"
