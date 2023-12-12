@@ -47,14 +47,16 @@ const Login = () => {
         >
           <FormControl fullWidth>
             <Typography
-              style={{
-                marginBottom: "10px",
-                borderBottom: "1px solid #cdcdcd",
-                paddingBottom: "10px",
+              sx={{
+                marginBottom: "7px",
+                fontSize: "bold",
+                fontWeight: "500",
+                paddingBottom: "5px",
+                textAlign: "center",
               }}
               variant="h5"
             >
-              Login User
+              LOGIN
             </Typography>
             <TextField
               style={{ marginBottom: "10px" }}
@@ -74,7 +76,17 @@ const Login = () => {
               value={password}
               onChange={handlePasswordChange}
             />
-            <Button onClick={handleSubmit} variant="contained">
+            <Button
+              sx={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--ternary-color)",
+                "&:hover": {
+                  backgroundColor: "var(--secondary-color)",
+                },
+              }}
+              onClick={handleSubmit}
+              variant="contained"
+            >
               Login
             </Button>
           </FormControl>

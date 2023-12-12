@@ -210,7 +210,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: '#0b525b' }}>
         <Toolbar>
           <Link to="/">
             <img
@@ -224,7 +224,7 @@ export default function Header() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{ display: { xs: "none", sm: "block" },fontWeight:"600" }}
           >
             Local Heroes
           </Typography>

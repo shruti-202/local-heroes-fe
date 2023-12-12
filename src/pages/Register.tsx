@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Card,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Card, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import Container from "../components/atoms/Container";
 import apiCall from "../utils/apiUtils";
 import API_ENUM from "../enum/API_ENUM";
@@ -77,14 +67,16 @@ const Register = () => {
         >
           <FormControl fullWidth>
             <Typography
-              style={{
-                marginBottom: "10px",
-                borderBottom: "1px solid #cdcdcd",
-                paddingBottom: "10px",
+              sx={{
+                marginBottom: "7px",
+                fontSize: "bold",
+                fontWeight: "500",
+                paddingBottom: "5px",
+                textAlign: "center",
               }}
               variant="h5"
             >
-              Register User
+              SIGN UP
             </Typography>
             <TextField
               style={{ marginBottom: "10px" }}
@@ -152,8 +144,18 @@ const Register = () => {
                 label="Client"
               />
             </RadioGroup>
-            <Button onClick={handleSubmit} variant="contained">
-              Submit
+            <Button
+              sx={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--ternary-color)",
+                "&:hover": {
+                  backgroundColor: "var(--secondary-color)",
+                },
+              }}
+              onClick={handleSubmit}
+              variant="contained"
+            >
+              SIGN UP
             </Button>
           </FormControl>
         </Card>

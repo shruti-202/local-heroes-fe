@@ -16,8 +16,7 @@ const apiCall = async (API_ENUM: API_ENUM, body?: any) => {
 
       if (response.ok) {
         const responseData = await response.json();
-
-        if (responseData?.message.length > 0)
+        if (responseData?.message?.length > 0)
           AppAlert(AlertTypeEnum.SUCCESS, responseData?.message);
 
         return {

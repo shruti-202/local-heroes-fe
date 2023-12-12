@@ -3,11 +3,11 @@ import Header from "../components/organisms/Header";
 import Footer from "../components/organisms/Footer";
 const MainLayout = () => {
   return (
-      <main>
-        <Header/>
-        <Outlet />
-        <Footer/>
-      </main>
+    <main>
+      <Header />
+      <Outlet />
+      <Footer />
+    </main>
   );
 };
 
