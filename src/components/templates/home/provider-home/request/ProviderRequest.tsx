@@ -1,4 +1,4 @@
-import { Button, Card } from "@mui/material";
+import { Button } from "@mui/material";
 import { useState } from "react";
 import "./ProviderRequest.css"
 import profile from "../../../../../assets/profile.jpg";
