@@ -14,8 +14,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import LoginIcon from '@mui/icons-material/Login';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import LoginIcon from "@mui/icons-material/Login";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import LocalHeroesLogo from "../../assets/local-heroes-logo.png";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
@@ -61,19 +61,37 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const StyledLink = styled(Link)<{ active?: boolean }>(({ theme, active }) => ({
+  padding: "4px 16px",
+  color: active ? "black" : "white",
+  background: active ? "white" : "null",
+  border: "2px solid white",
+  borderRadius: "8px",
+  margin: "0 4px",
+  textDecoration: "none",
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  "& .MuiTypography-root": {
+    fontSize: "15px",
+    fontWeight: active ? 600 : 400,
+  },
+}));
+
 export default function Header() {
   const { userInfo, setUserInfo } = React.useContext(UserContext);
+  const [activeButton, setActiveButton] = React.useState("login");
 
   const logout = () => {
-    apiCall(API_ENUM.LOGOUT)
+    apiCall(API_ENUM.LOGOUT);
     setUserInfo({
       userId: "",
       username: "",
       email: "",
       phone: "",
       type: "",
-    })
-  }
+    });
+  };
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -178,8 +196,9 @@ export default function Header() {
             <p>Profile</p>
           </MenuItem>
         </>
-        ) : (<>
-          <Link to="/login" >
+      ) : (
+        <>
+          <Link to="/login">
             <MenuItem>
               <IconButton
                 size="large"
@@ -203,14 +222,14 @@ export default function Header() {
               <p>Signup</p>
             </MenuItem>
           </Link>
-        </>)
-      }
+        </>
+      )}
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: '#0b525b' }}>
+      <AppBar position="static" sx={{ backgroundColor: "#0b525b" }}>
         <Toolbar>
           <Link to="/">
             <img
@@ -224,7 +243,7 @@ export default function Header() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" },fontWeight:"600" }}
+            sx={{ display: { xs: "none", sm: "block" }, fontWeight: "600" }}
           >
             Local Heroes
           </Typography>
@@ -274,33 +293,22 @@ export default function Header() {
             ) : (
               <>
                 {/* SIGNUP */}
-                <Link
+                <StyledLink
                   to="/register"
-                  style={{
-                    padding: "4px 16px",
-                    color: "white",
-                    border: "2px solid white",
-                    borderRadius: "8px",
-                    margin: "0 4px",
-                  }}
+                  onClick={() => setActiveButton("signup")}
+                  active={activeButton === "signup"}
                 >
                   <Typography>Signup</Typography>
-                </Link>
+                </StyledLink>
 
                 {/* LOGIN */}
-                <Link
+                <StyledLink
                   to="/login"
-                  style={{
-                    padding: "4px 16px",
-                    color: "#1976d3",
-                    background: "white",
-                    border: "2px solid white",
-                    borderRadius: "8px",
-                    margin: "0 4px",
-                  }}
+                  onClick={() => setActiveButton("login")}
+                  active={activeButton === "login"}
                 >
                   <Typography>Login</Typography>
-                </Link>
+                </StyledLink>
               </>
             )}
           </Box>
