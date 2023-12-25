@@ -4,6 +4,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Button, TextField, Typography } from "@mui/material";
+import apiCall from "../../../../../utils/apiUtils";
+import API_ENUM from "../../../../../enum/API_ENUM";
 
 const ServiceCategories = {
   HOME_SERVICES: "Home Service",
@@ -26,11 +28,18 @@ const ProviderService = () => {
   };
 
   const setServiceData = (e: any) => {
-    if (e.target.price > 100000) return;
-    setServiceDetails({ ...serviceDetails, [e.target.name]: e.target.value });
-  };
+    const { name, value } = e.target;
+    if (name === 'price' && parseFloat(value) > 5000) {
+      return;
+    }
+    setServiceDetails({ ...serviceDetails, [name]: value });
+  }
 
-  console.log(serviceType, serviceDetails);
+  const handleFormSubmit = async () => {
+    const data = await apiCall(API_ENUM.PROVIDER_ADD_SERVICE, { serviceType, serviceDetails });
+  }
+
+
   return (
     <div style={{ display: "flex", marginTop: "16px", flexDirection:"column"  }}>
       <Typography
@@ -44,7 +53,7 @@ const ProviderService = () => {
       >
         Add Service
       </Typography>
-      <FormControl style={{ minWidth: "500px", margin: "auto"}}>
+      <FormControl style={{ maxWidth: "500px", margin: "auto",width:"100%" }}>
         <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -75,6 +84,7 @@ const ProviderService = () => {
           id="standard-basic"
           label="Price"
           variant="standard"
+          value={serviceDetails.price}
           onChange={(e) => setServiceData(e)}
         />
         <TextField
@@ -88,7 +98,7 @@ const ProviderService = () => {
         />
         <Button sx={{backgroundColor: 'var(--primary-color)' , color: "var(--ternary-color)",'&:hover': {
               backgroundColor: "var(--secondary-color)"
-            },}}  variant="contained">Add Service</Button>
+            },}}  variant="contained" onClick={handleFormSubmit}>Add Service</Button>
       </FormControl>
     </div>
   );

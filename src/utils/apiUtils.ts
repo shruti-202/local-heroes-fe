@@ -18,16 +18,13 @@ const apiCall = async (API_ENUM: API_ENUM, body?: any) => {
         const responseData = await response.json();
         if (responseData?.message?.length > 0)
           AppAlert(AlertTypeEnum.SUCCESS, responseData?.message);
-
         return {
           data: responseData.data,
           success: true,
         };
       } else {
         const data = await response.json();
-
-        if (data?.error.length > 0) AppAlert(AlertTypeEnum.ERROR, data?.error);
-
+        if (data?.message.length > 0) AppAlert(AlertTypeEnum.ERROR, data?.message);
         return {
           data: data.data,
           success: false,
