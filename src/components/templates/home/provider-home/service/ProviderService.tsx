@@ -37,8 +37,15 @@ const ProviderService = () => {
 
   const handleFormSubmit = async () => {
     const data = await apiCall(API_ENUM.PROVIDER_ADD_SERVICE, { serviceType, serviceDetails });
+    if(data?.success){
+      setServiceType("");
+      setServiceDetails({
+        title: "",
+        price: "",
+        description: "",
+      });
+    }
   }
-
 
   return (
     <div style={{ display: "flex", marginTop: "16px", flexDirection:"column"  }}>
@@ -75,6 +82,7 @@ const ProviderService = () => {
           id="standard-basic"
           label="Title"
           variant="standard"
+          value={serviceDetails.title}
           onChange={(e) => setServiceData(e)}
         />
         <TextField
@@ -94,6 +102,7 @@ const ProviderService = () => {
           id="standard-basic"
           label="Description"
           variant="standard"
+          value={serviceDetails.description}
           onChange={(e) => setServiceData(e)}
         />
         <Button sx={{backgroundColor: 'var(--primary-color)' , color: "var(--ternary-color)",'&:hover': {
