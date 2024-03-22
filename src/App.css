@@ -3,4 +3,18 @@
   --secondary-color: #127e86;
   --ternary-color: #ffffff;
   --dark-black: #000000;
+  --light-black: #565656;
+  --light-blue: #4285ea
+}
+.booking-details{
+  margin-top: 12px;
+}
+.booking-details-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap:20px;
+}
+.booking-details-row-key {
+  font-weight: 600;
 }
