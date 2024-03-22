@@ -239,14 +239,17 @@ export default function Header() {
               style={{ marginRight: "10px" }}
             />
           </Link>
+          <Link to ="/">
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" }, fontWeight: "600" }}
+            sx={{ display: { xs: "none", sm: "block" }, fontWeight: "600",color: "var(--ternary-color)", textDecoration: "none"}}
           >
             Local Heroes
           </Typography>
+          </Link>
+          
           <Search>
             <SearchIconWrapper>
               <SearchIcon />

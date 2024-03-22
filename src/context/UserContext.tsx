@@ -44,7 +44,8 @@ const UserContextProvider = ({ children }: any) => {
   });
 
   useEffect(() => {
-    apiCall(API_ENUM.GET_USER_INFO).then((data) => {
+    apiCall(API_ENUM.GET_USER_INFO)
+    .then((data) => {
       if (data?.success) {
         setUserInfo({
           userId: data.data.userId,
