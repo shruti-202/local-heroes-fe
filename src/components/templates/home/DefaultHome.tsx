@@ -11,7 +11,7 @@ const categories = [
   {
     element: HomeCook,
     name: "Home Cook",
-    path: "/cook",
+    path: "/home",
   },
   {
     element: HomeBeauty,
