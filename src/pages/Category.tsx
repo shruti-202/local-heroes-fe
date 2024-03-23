@@ -1,37 +1,79 @@
 import { useParams } from "react-router-dom";
 import Container from "../components/atoms/Container";
+import { useEffect, useState } from "react";
+import API_ENUM from "../enum/API_ENUM";
+import apiCall from "../utils/apiUtils";
+import ProviderCard from "../components/molecules/ProviderCard";
 
-const colorPalette = ["#cdb4db", "#ffc8dd", "#a2d2ff", "#a8dadc", "#e7c6ff"];
+const paramToCategoryEnum = (param: string | undefined) => {
+  switch (param) {
+    case "home":
+      return "HOME_SERVICES";
+    case "beauty":
+      return "BEAUTY_AND_GROOMING";
+    case "technology":
+      return "TECHNOLOGY_AND_ELECTRONICS";
+    case "education":
+      return "EDUCATIONAL_SERVICES";
+    case "other-services":
+      return "MISCELLANEOUS_SERVICES";
+    default:
+      return "MISCELLANEOUS_SERVICES";
+  }
+};
 
-const providerList = [
-  {
-    name: "Shruti Gawande",
-    service: "Cook",
-    price: 800,
-  },
-  {
-    name: "Samiksh Sharma",
-    service: "Education",
-    price: 900,
-  },
-  {
-    name: "Diksha Jain",
-    service: "Beauty",
-    price: 700,
-  },
-  {
-    name: "Nidhi Talwar",
-    service: "Technology",
-    price: 600,
-  },
-  {
-    name: "Sneha Yadav",
-    service: "Others",
-    price: 1000,
-  },
-];
+interface Availability {
+  daysType: string;
+  startDate: string | null;
+  startTime: string;
+  endDate: string | null;
+  endTime: string;
+ 
+}
+
+export interface Service {
+  _id: string,
+  category: string;
+  title: string;
+  price: number;
+  description: string;
+}
+
+interface Provider {
+  availability: Availability;
+  createdAt: string;
+  email: string;
+  name: string;
+  password: string;
+  phone: string;
+  services: Service[];
+  updatedAt: string;
+  userType: string;
+  username: string;
+  __v: number;
+  _id: string;
+}
+
+interface ProviderList extends Array<Provider> {}
+
 const Category = () => {
   const { categoryName } = useParams();
+  const [providerList, setProviderList] = useState<ProviderList>([]);
+  
+  const getProviders = async () => {
+    const data = await apiCall(
+      API_ENUM.PROVIDERS_BY_CATEGORY,
+      undefined,
+      `?category=${paramToCategoryEnum(categoryName)}`
+    );
+    console.log(data);
+    setProviderList(data?.data?.providers);
+  };
+
+  useEffect(() => {
+    getProviders();
+  }, []);
+
   return (
     <Container maxWidth="sm">
       <div>
@@ -39,9 +81,11 @@ const Category = () => {
           <ProviderCard
             key={idx}
             idx={idx}
+            providerId={provider._id}
             name={provider.name}
-            service={provider.service}
-            price={provider.price}
+            phone={provider.phone}
+            services={provider.services}
+            availability={provider.availability}
           />
         ))}
       </div>
@@ -49,46 +93,6 @@ const Category = () => {
   );
 };
 
-const ProviderCard = ({ idx, name, service, price }: any) => {
-  const logoLetter = name[0].toUpperCase();
-  const nameBgColor = colorPalette[idx % 5];
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "16px",
-        marginBottom: "16px",
-        borderRadius: "12px",
-        boxShadow:
-          "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-      }}
-    >
-      <div style={{ display: "flex", gap: "16px" }}>
-        <div
-          style={{
-            fontSize: "38px",
-            fontWeight: "bold",
-            width: "48px",
-            height: "48px",
-            borderRadius: "50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: nameBgColor,
-          }}
-        >
-          {logoLetter}
-        </div>
-        <div>
-          <p style={{ fontSize: "22px", fontWeight: "bold" }}>{name}</p>
-          <p>{service}</p>
-        </div>
-      </div>
-      <div style={{ fontSize: "20px", fontWeight: "bold" }}>{price}₹</div>
-    </div>
-  );
-};
+<ProviderCard/>
 
 export default Category;
