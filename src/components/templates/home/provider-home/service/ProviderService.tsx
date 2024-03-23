@@ -8,7 +8,7 @@ import apiCall from "../../../../../utils/apiUtils";
 import API_ENUM from "../../../../../enum/API_ENUM";
 
 const ServiceCategories = {
-  HOME_SERVICES: "Home Service",
+  HOME_SERVICES: "Home Services",
   TECHNOLOGY_AND_ELECTRONICS: "Technology and Electronics",
   BEAUTY_AND_GROOMING: "Beauty and Grooming",
   EDUCATIONAL_SERVICES: "Educational Services",
