@@ -7,13 +7,18 @@ const ProviderRequestCard = ({
   dateTime,
   address,
 }: any) => {
-  
+  const initials = name ? name.trim().split(" ")[0][0].toUpperCase() : "";
+
   return (
     <div className="provider-request-card">
       <div className="provider-request-card-head">
         <div className="provider-request-card-head-left">
           <div className="provider-request-card-head-left-img">
-            <img src={userImg} alt="profile" />
+            {userImg ? (
+              <img src={userImg} alt="Profile" />
+            ) : (
+              <div className="empty-profile-pic">{initials}</div>
+            )}
           </div>
           <div className="provider-request-card-head-left-info">
             <p>{name}</p>
@@ -22,9 +27,11 @@ const ProviderRequestCard = ({
           </div>
         </div>
         <div className="provider-request-card-head-right">
-          <p>🎖️ {serviceType}</p>
-          <p>⏰ {dateTime}</p>
-          <p>🏠 {address}</p>
+          <div>
+            <p>🎖️ {serviceType}</p>
+            <p>⏰ {dateTime}</p>
+            <p>🏠 {address}</p>
+          </div>
         </div>
       </div>
     </div>
