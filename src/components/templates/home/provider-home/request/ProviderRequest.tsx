@@ -51,12 +51,7 @@ const ProviderRequest = () => {
 const RequestList = ({ selectedTabIndex }: any) => {
   const [requestList, setRequestList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const response = apiCall(
-    API_ENUM.PROVIDER_GET_REQUEST,
-    undefined,
-    `?status=${tabs[selectedTabIndex]}`
-  );
-
+ 
   useEffect(() => {
     let requestStatus: string | undefined = tabs[selectedTabIndex];
     let queryString = "";

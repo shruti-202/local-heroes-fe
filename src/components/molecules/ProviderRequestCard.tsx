@@ -28,7 +28,7 @@ const ProviderRequestCard = ({
         </div>
         <div className="provider-request-card-head-right">
           <div>
-            <p>🎖️ {serviceType}</p>
+            <p>📌 {serviceType}</p>
             <p>⏰ {dateTime}</p>
             <p>🏠 {address}</p>
           </div>

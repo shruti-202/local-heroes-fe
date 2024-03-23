@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const ServiceCard = ({ service, handleUserServiceSelection }: any) => {
   const [navigateToLogin, setNavigateToLogin] = useState<boolean>(false);
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  const { userInfo } = useContext(UserContext);
   const navigate = useNavigate();
   
   if (navigateToLogin) navigate("/login");
