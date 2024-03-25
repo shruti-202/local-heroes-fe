@@ -79,8 +79,9 @@ const CategoryCard = ({ element, name, path }: any) => {
   return (
     <div
       style={{
-        width: "45%",
+        width: "35%",
         maxHeight: "300px",
+        padding:"10px",
         textAlign: "center",
         fontSize: "bold",
         fontWeight: 600,

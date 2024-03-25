@@ -21,7 +21,7 @@ function Item(props: any) {
     <Paper>
       <div style={{ height: "450px" }}>
         <img
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition:"25% 25%"}}
           src={props.imageUrl}
           alt="carousel"
         />
