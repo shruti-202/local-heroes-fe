@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import API_ENUM from "../../enum/API_ENUM";
 import apiCall from "../../utils/apiUtils";
+import "./Header.css"
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -228,7 +229,7 @@ export default function Header() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, position:"sticky", top:0, zIndex:1000}}>
       <AppBar position="static" sx={{ backgroundColor: "#0b525b" }}>
         <Toolbar>
           <Link to="/">
