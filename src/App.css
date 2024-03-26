@@ -18,3 +18,9 @@
 .booking-details-row-key {
   font-weight: 600;
 }
+@media screen and (max-width: 785px){
+  .carousel-img {
+    object-position: 50% 50%;
+  }
+  
+}

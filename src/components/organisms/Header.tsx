@@ -21,7 +21,6 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import API_ENUM from "../../enum/API_ENUM";
 import apiCall from "../../utils/apiUtils";
-import "./Header.css"
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
