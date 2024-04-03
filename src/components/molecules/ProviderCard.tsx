@@ -7,7 +7,7 @@ import API_ENUM from "../../enum/API_ENUM";
 import { DatePicker, LocalizationProvider, TimePicker } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, TextField, Tooltip,Typography } from "@mui/material";
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, TextField, Tooltip, Typography } from "@mui/material";
 
 const colorPalette = ["#cdb4db", "#ffc8dd", "#a2d2ff", "#a8dadc", "#e7c6ff"];
 
@@ -22,7 +22,14 @@ const style = {
   p: 4,
 };
 
-const ProviderCard = ({ idx, providerId, name, phone, services, availability }: any) => {
+const ProviderCard = ({
+  idx,
+  providerId,
+  name,
+  phone,
+  services,
+  availability,
+}: any) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,32 +52,116 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
   });
   const [paymentMode, setPaymentMode] = useState("");
 
-  console.log("selectedDate",selectedDate)
-
-  const handleUserServiceSelection = (service : any) => {
-    console.log("hurray");
-    setSelectedService(service)
+  const handleUserServiceSelection = (service: any) => {
+    setSelectedService(service);
     handleOpen();
   };
 
-  const handleBookService = async () => {
-    const address = `${clientAddressDetails.addressLineOne}${clientAddressDetails.addressLineTwo ? `, ${clientAddressDetails.addressLineTwo}` : ''}, ${clientAddressDetails.state ? clientAddressDetails.state + ',' : ''}${clientAddressDetails.city ? clientAddressDetails.city + ',' : ''}${clientAddressDetails.pinCode ? clientAddressDetails.pinCode : ''}`;
-    const data = await apiCall(API_ENUM.CLIENT_SERVICE_BOOKING, {
-       providerId: providerId,
-       providerServiceId: selectedService?._id,
-       address: address,
-      date: (selectedDate ? dayjs(selectedDate).date() + "/" + (dayjs(selectedDate).month() + 1) + "/" + dayjs(selectedDate).year() : ""),
-       startTime: selectedStartTime,
-       endTime: selectedEndTime,
-       paymentMode: paymentMode
-    })
+  const renderAddressDetails = () => {
+    const { addressLineOne, addressLineTwo, state, city, pinCode } =
+      clientAddressDetails;
 
-    if(data?.success) {
+    const addressDetailsArray = [];
+
+    if (addressLineOne) {
+      addressDetailsArray.push(addressLineOne);
+    }
+
+    if (addressLineTwo) {
+      addressDetailsArray.push(addressLineTwo);
+    }
+
+    if (state) {
+      addressDetailsArray.push(state);
+    }
+
+    if (city) {
+      addressDetailsArray.push(city);
+    }
+
+    if (pinCode) {
+      addressDetailsArray.push(pinCode);
+    }
+
+    return addressDetailsArray.map((detail, index) => (
+      <span key={index}>
+        {detail}
+        {index < addressDetailsArray.length - 1 && ", "}
+      </span>
+    ));
+  };
+
+  const handleBookService = async () => {
+    try {
+      const { addressLineOne, addressLineTwo, state, city, pinCode } =
+        clientAddressDetails;
+
+      let address = addressLineOne || "";
+
+      if (addressLineTwo) {
+        address += `, ${addressLineTwo}`;
+      }
+
+      if (state) {
+        address += `, ${state}`;
+      }
+
+      if (city) {
+        address += `, ${city}`;
+      }
+
+      if (pinCode) {
+        address += `, ${pinCode}`;
+      }
+
+      const data = await apiCall(API_ENUM.CLIENT_SERVICE_BOOKING, {
+        providerId: providerId,
+        providerServiceId: selectedService?._id,
+        date: selectedDate
+          ? dayjs(selectedDate).date() +
+            "/" +
+            (dayjs(selectedDate).month() + 1) +
+            "/" +
+            dayjs(selectedDate).year()
+          : "",
+        startTime: selectedStartTime,
+        endTime: selectedEndTime,
+        clientAddress: {
+          addressLineOne: clientAddressDetails.addressLineOne,
+          addressLineTwo: clientAddressDetails.addressLineTwo,
+          state: clientAddressDetails.state,
+          city: clientAddressDetails.city,
+          pinCode: clientAddressDetails.pinCode,
+        },
+        paymentMode: paymentMode,
+      });
+
+      if (data?.success) {
+        setSelectedService(undefined);
+        setSelectedDate(null);
+        setSelectedStartTime("");
+        setSelectedEndTime("");
+
+        setClientAddressDetails({
+          addressLineOne: "",
+          addressLineTwo: "",
+          state: "",
+          city: "",
+          pinCode: "",
+        });
+
+        setPaymentMode("");
+        setBookingStep(1);
+        handleClose();
+      } else {
+        console.error("Failed to book the service. Please try again later.");
+      }
+    } catch (error) {
+      console.error("An error occurred while booking the service:", error);
       setSelectedService(undefined);
       setSelectedDate(null);
       setSelectedStartTime("");
       setSelectedEndTime("");
-
       setClientAddressDetails({
         addressLineOne: "",
         addressLineTwo: "",
@@ -78,13 +169,11 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
         city: "",
         pinCode: "",
       });
-  
       setPaymentMode("");
-      setBookingStep(1)
-       handleClose(); 
+      setBookingStep(1);
     }
-  }
-  
+  };
+
   return (
     <div>
       <div
@@ -150,12 +239,11 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
       <Modal
         open={open}
         onClose={handleClose}
-        
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          { availability === undefined ? (
+          {availability === undefined ? (
             <div>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Provider availability is not present
@@ -206,8 +294,8 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
                           onChange={(newTime: Date | null) => {
                             if (newTime) {
                               const formattedTime =
-                              dayjs(newTime).format("HH:mm");
-                            setSelectedStartTime(formattedTime);
+                                dayjs(newTime).format("HH:mm");
+                              setSelectedStartTime(formattedTime);
                             }
                           }}
                         />
@@ -220,8 +308,8 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
                           onChange={(newTime: Date | null) => {
                             if (newTime) {
                               const formattedTime =
-                              dayjs(newTime).format("HH:mm");
-                            setSelectedEndTime(formattedTime);
+                                dayjs(newTime).format("HH:mm");
+                              setSelectedEndTime(formattedTime);
                             }
                           }}
                         />
@@ -357,7 +445,7 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
                       clientAddressDetails.addressLineOne === "" ||
                       clientAddressDetails.state === "" ||
                       clientAddressDetails.city === "" ||
-                      clientAddressDetails.pinCode === "" 
+                      clientAddressDetails.pinCode === ""
                     }
                     onClick={() => setBookingStep(bookingStep + 1)}
                   >
@@ -383,7 +471,7 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
                       aria-labelledby="demo-controlled-radio-buttons-group"
                       name="controlled-radio-buttons-group"
                       value={paymentMode}
-                      onChange={(e:any) => setPaymentMode(e.target.value)}
+                      onChange={(e: any) => setPaymentMode(e.target.value)}
                     >
                       <FormControlLabel
                         value="UPI"
@@ -407,19 +495,16 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
                       },
                     }}
                     variant="contained"
-                    disabled={
-                      paymentMode === ""
-                    }
+                    disabled={paymentMode === ""}
                     onClick={() => setBookingStep(bookingStep + 1)}
                   >
                     Continue
                   </Button>
                 </>
               )}
-              {
-                bookingStep === 4 && (
-                  <>
-                    <Typography
+              {bookingStep === 4 && (
+                <>
+                  <Typography
                     id="modal-modal-title"
                     variant="h5"
                     component="h2"
@@ -427,25 +512,43 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
                   >
                     Billing Details
                   </Typography>
-                  <div className = "booking-details">
-                  <div className = "booking-details-row">
-                    <div className = "booking-details-row-key">Service Type</div>
-                    <div className = "booking-details-row-values"> {selectedService?.title}</div>
+                  <div className="booking-details">
+                    <div className="booking-details-row">
+                      <div className="booking-details-row-key">
+                        Service Type
+                      </div>
+                      <div className="booking-details-row-values">
+                        {" "}
+                        {selectedService?.title}
+                      </div>
+                    </div>
+                    <div className="booking-details-row">
+                      <div className="booking-details-row-key">Date & Time</div>
+                      <div className="booking-details-row-values">
+                        {selectedDate
+                          ? dayjs(selectedDate).format("DD-MM-YYYY")
+                          : ""}
+                        , {selectedStartTime + "-" + selectedEndTime}
+                      </div>
+                    </div>
+                    <div className="booking-details-row">
+                      <div className="booking-details-row-key">Address</div>
+                      <div className="booking-details-row-values">
+                        <div className="booking-details-row-values">
+                          {renderAddressDetails()}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="booking-details-row">
+                      <div className="booking-details-row-key">
+                        Payment Mode
+                      </div>
+                      <div className="booking-details-row-values">
+                        {paymentMode}
+                      </div>
+                    </div>
                   </div>
-                  <div className = "booking-details-row">
-                    <div className = "booking-details-row-key">Date & Time</div>
-                    <div className = "booking-details-row-values">{selectedDate? dayjs(selectedDate).format('DD-MM-YYYY') : ""}, {selectedStartTime + "-"+ selectedEndTime}</div>
-                  </div>
-                  <div className = "booking-details-row">
-                    <div className = "booking-details-row-key">Address</div>
-                    <div className = "booking-details-row-values">{clientAddressDetails.addressLineOne},{clientAddressDetails.addressLineTwo} {clientAddressDetails.state}, {clientAddressDetails.city},{clientAddressDetails.pinCode}</div>
-                  </div>
-                  <div className = "booking-details-row">
-                    <div className = "booking-details-row-key">Payment Mode</div>
-                    <div className = "booking-details-row-values">{paymentMode}</div>
-                  </div>
-                  </div>
-                  
+
                   <Button
                     sx={{
                       backgroundColor: "var(--primary-color)",
@@ -454,15 +557,14 @@ const ProviderCard = ({ idx, providerId, name, phone, services, availability }: 
                         backgroundColor: "var(--secondary-color)",
                       },
                     }}
-                    variant ="contained"
-                    disabled = {paymentMode === ""}
+                    variant="contained"
+                    disabled={paymentMode === ""}
                     onClick={handleBookService}
                   >
                     BOOK
                   </Button>
-                  </>
-                )
-              }
+                </>
+              )}
             </div>
           )}
         </Box>
