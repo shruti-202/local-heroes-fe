@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ServiceCard from "./ServiceCard";
 import dayjs from "dayjs";
 import { Service } from "../../pages/Category";
@@ -57,6 +57,13 @@ const ProviderCard = ({
     handleOpen();
   };
 
+  useEffect(() => {
+    if (bookingStep === 1 && selectedService) {
+      handleOpen();
+    }
+  }, [bookingStep, selectedService]);
+  
+  
   const renderAddressDetails = () => {
     const { addressLineOne, addressLineTwo, state, city, pinCode } =
       clientAddressDetails;
@@ -141,7 +148,6 @@ const ProviderCard = ({
         setSelectedDate(null);
         setSelectedStartTime("");
         setSelectedEndTime("");
-
         setClientAddressDetails({
           addressLineOne: "",
           addressLineTwo: "",
@@ -149,28 +155,42 @@ const ProviderCard = ({
           city: "",
           pinCode: "",
         });
-
         setPaymentMode("");
         setBookingStep(1);
         handleClose();
       } else {
-        console.error("Failed to book the service. Please try again later.");
+        setTimeout(() => {
+          setSelectedDate(null);
+          setSelectedStartTime("");
+          setSelectedEndTime("");
+          setClientAddressDetails({
+            addressLineOne: "",
+            addressLineTwo: "",
+            state: "",
+            city: "",
+            pinCode: "",
+          });
+          setPaymentMode("");
+          setBookingStep(1);
+        }, 5000);
+       
       }
     } catch (error) {
-      console.error("An error occurred while booking the service:", error);
-      setSelectedService(undefined);
-      setSelectedDate(null);
-      setSelectedStartTime("");
-      setSelectedEndTime("");
-      setClientAddressDetails({
-        addressLineOne: "",
-        addressLineTwo: "",
-        state: "",
-        city: "",
-        pinCode: "",
-      });
-      setPaymentMode("");
-      setBookingStep(1);
+      setTimeout(() => {
+        setSelectedDate(null);
+        setSelectedStartTime("");
+        setSelectedEndTime("");
+        setClientAddressDetails({
+          addressLineOne: "",
+          addressLineTwo: "",
+          state: "",
+          city: "",
+          pinCode: "",
+        });
+        setPaymentMode("");
+        setBookingStep(1);
+      }, 5000);
+     
     }
   };
 
@@ -515,7 +535,7 @@ const ProviderCard = ({
                   <div className="booking-details">
                     <div className="booking-details-row">
                       <div className="booking-details-row-key">
-                        Service Type
+                        Service Type:
                       </div>
                       <div className="booking-details-row-values">
                         {" "}
@@ -523,8 +543,10 @@ const ProviderCard = ({
                       </div>
                     </div>
                     <div className="booking-details-row">
-                      <div className="booking-details-row-key">Date & Time</div>
+                      <div className="booking-details-row-key">Date & Time:</div>
                       <div className="booking-details-row-values">
+                      {selectedDate ? dayjs(selectedDate).format("DD-MM-YYYY") : ""},
+    
                         {selectedDate
                           ? dayjs(selectedDate).format("DD-MM-YYYY")
                           : ""}
@@ -532,7 +554,7 @@ const ProviderCard = ({
                       </div>
                     </div>
                     <div className="booking-details-row">
-                      <div className="booking-details-row-key">Address</div>
+                      <div className="booking-details-row-key">Address:</div>
                       <div className="booking-details-row-values">
                         <div className="booking-details-row-values">
                           {renderAddressDetails()}
@@ -541,10 +563,10 @@ const ProviderCard = ({
                     </div>
                     <div className="booking-details-row">
                       <div className="booking-details-row-key">
-                        Payment Mode
+                        Payment Mode: 
                       </div>
                       <div className="booking-details-row-values">
-                        {paymentMode}
+                         {paymentMode}
                       </div>
                     </div>
                   </div>
