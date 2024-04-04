@@ -9,6 +9,16 @@ const ProviderRequestCard = ({
 }: any) => {
   const initials = name ? name.trim().split(" ")[0][0].toUpperCase() : "";
 
+  const renderAddressDetails = () => {
+    if (typeof address === "object") {
+      const { _id, ...restAddress } = address;
+      return Object.values(restAddress)
+        .filter((detail) => !!detail)
+        .join(", ");
+    } else {
+      return address;
+    }
+  };
   return (
     <div className="provider-request-card">
       <div className="provider-request-card-head">
@@ -21,16 +31,25 @@ const ProviderRequestCard = ({
             )}
           </div>
           <div className="provider-request-card-head-left-info">
-            <p>{name}</p>
-            <p>{phone}</p>
-            <p>{status}</p>
+            {name && <p>{name}</p>}
+            {phone && <p>{phone}</p>}
+            {status && <p>{status}</p>}
           </div>
         </div>
         <div className="provider-request-card-head-right">
-          <div>
-            <p>📌 {serviceType}</p>
-            <p>⏰ {dateTime}</p>
-            <p>🏠 {address}</p>
+          <div className="booking-details">
+            <div className="booking-details-row">
+              <p className="booking-details-row-key">📌</p>
+              <p>{serviceType}</p>
+            </div>
+            <div className="booking-details-row">
+              <p className="booking-details-row-key">⏰</p>
+              <p>{dateTime}</p>
+            </div>
+            <div className="booking-details-row">
+              <p className="booking-details-row-key">🏠</p>
+              <p>{renderAddressDetails()}</p>
+            </div>
           </div>
         </div>
       </div>
