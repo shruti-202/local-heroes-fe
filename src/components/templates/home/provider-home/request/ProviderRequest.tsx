@@ -24,6 +24,7 @@ const ProviderRequest = () => {
       >
         {tabs.map((tab, index) => (
           <Button
+            key={index}
             sx={{
               backgroundColor:
                 selectedTabIndex === index ? "var(--primary-color)" : null,
@@ -36,8 +37,9 @@ const ProviderRequest = () => {
                 color: "var(--ternary-color)",
               },
             }}
-            variant={selectedTabIndex === index ? "contained" : "outlined"}
             onClick={() => setSelectedTabIndex(index)}
+            variant={selectedTabIndex === index ? "contained" : "outlined"}
+           
           >
             {tab}
           </Button>
@@ -71,12 +73,18 @@ const RequestList = ({ selectedTabIndex }: any) => {
       }
     )
     .catch(error => {
-      console.error("Error fetching requests:", error);
       setLoading(false); 
     });
   }, [selectedTabIndex]);
 
-  console.log("requestList", requestList);
+  const formatTime = (time: string) => {
+    const [hours, minutes] = time.split(':');
+    const formattedHours = parseInt(hours) % 12;
+    const period = parseInt(hours) >= 12 ? 'PM' : 'AM';
+    return `${formattedHours}:${minutes} ${period}`;
+  };
+
+
   return (
     <div>
       {loading ? (
@@ -93,7 +101,7 @@ const RequestList = ({ selectedTabIndex }: any) => {
               phone={request.clientId.phone}
               status={request.status}
               serviceType={request.serviceName}
-              dateTime={`${request.date}, ${request.startTime} - ${request.endTime}`}
+              dateTime={`${request.date}, ${formatTime(request.startTime)} - ${formatTime(request.endTime)}`}
               address={request.clientAddress}
             />
           ))}
