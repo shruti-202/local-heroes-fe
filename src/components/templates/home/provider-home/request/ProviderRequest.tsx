@@ -73,6 +73,7 @@ const RequestList = ({ selectedTabIndex }: any) => {
       }
     )
     .catch(error => {
+      console.log(error)
       setLoading(false); 
     });
   }, [selectedTabIndex]);
