@@ -4,10 +4,26 @@ import dayjs from "dayjs";
 import { Service } from "../../pages/Category";
 import apiCall from "../../utils/apiUtils";
 import API_ENUM from "../../enum/API_ENUM";
-import { DatePicker, LocalizationProvider, TimePicker } from "@mui/x-date-pickers-pro";
+import {
+  DatePicker,
+  LocalizationProvider,
+  TimePicker,
+} from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, TextField, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Modal,
+  Radio,
+  RadioGroup,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
 const colorPalette = ["#cdb4db", "#ffc8dd", "#a2d2ff", "#a8dadc", "#e7c6ff"];
 
@@ -62,8 +78,7 @@ const ProviderCard = ({
       handleOpen();
     }
   }, [bookingStep, selectedService]);
-  
-  
+
   const renderAddressDetails = () => {
     const { addressLineOne, addressLineTwo, state, city, pinCode } =
       clientAddressDetails;
@@ -173,7 +188,6 @@ const ProviderCard = ({
           setPaymentMode("");
           setBookingStep(1);
         }, 5000);
-       
       }
     } catch (error) {
       setTimeout(() => {
@@ -190,7 +204,6 @@ const ProviderCard = ({
         setPaymentMode("");
         setBookingStep(1);
       }, 5000);
-     
     }
   };
 
@@ -543,14 +556,26 @@ const ProviderCard = ({
                       </div>
                     </div>
                     <div className="booking-details-row">
-                      <div className="booking-details-row-key">Date & Time:</div>
+                      <div className="booking-details-row-key">
+                        Date & Time:
+                      </div>
                       <div className="booking-details-row-values">
-                      {selectedDate ? dayjs(selectedDate).format("DD-MM-YYYY") : ""},
-    
-                        {selectedDate
-                          ? dayjs(selectedDate).format("DD-MM-YYYY")
-                          : ""}
-                        , {selectedStartTime + "-" + selectedEndTime}
+                        {selectedDate && (
+                          <>
+                            {dayjs(selectedDate).format("DD-MM-YYYY")}
+                            {(selectedStartTime || selectedEndTime) && ", "}
+                            {selectedStartTime && selectedEndTime ? (
+                              <>
+                                <span>{selectedStartTime}</span> -{" "}
+                                <span>{selectedEndTime}</span>
+                              </>
+                            ) : selectedStartTime ? (
+                              <span>{selectedStartTime}</span>
+                            ) : (
+                              <span>{selectedEndTime}</span>
+                            )}
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="booking-details-row">
@@ -563,10 +588,10 @@ const ProviderCard = ({
                     </div>
                     <div className="booking-details-row">
                       <div className="booking-details-row-key">
-                        Payment Mode: 
+                        Payment Mode:
                       </div>
                       <div className="booking-details-row-values">
-                         {paymentMode}
+                        {paymentMode}
                       </div>
                     </div>
                   </div>
