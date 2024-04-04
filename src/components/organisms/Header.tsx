@@ -61,7 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const StyledLink = styled(Link)<{ active?: boolean }>(({ theme, active }) => ({
+const StyledLink = styled(Link)<{ active?: string }>(({ theme, active }) => ({
   padding: "4px 16px",
   color: active ? "black" : "white",
   background: active ? "white" : "null",
@@ -158,8 +158,8 @@ export default function Header() {
       onClose={handleMobileMenuClose}
     >
       {userInfo?.userId ? (
-        <>
-          <MenuItem>
+        [
+          <MenuItem key="mail">
             <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -170,8 +170,8 @@ export default function Header() {
               </Badge>
             </IconButton>
             <p>Messages</p>
-          </MenuItem>
-          <MenuItem>
+          </MenuItem>,
+          <MenuItem key="notifications">
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -182,8 +182,8 @@ export default function Header() {
               </Badge>
             </IconButton>
             <p>Notifications</p>
-          </MenuItem>
-          <MenuItem onClick={handleProfileMenuOpen}>
+          </MenuItem>,
+          <MenuItem key="profile" onClick={handleProfileMenuOpen}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -195,10 +195,10 @@ export default function Header() {
             </IconButton>
             <p>Profile</p>
           </MenuItem>
-        </>
+        ]
       ) : (
-        <>
-          <Link to="/login">
+        [
+          <Link to="/login" key="login">
             <MenuItem>
               <IconButton
                 size="large"
@@ -209,8 +209,8 @@ export default function Header() {
               </IconButton>
               <p>Login</p>
             </MenuItem>
-          </Link>
-          <Link to="/register">
+          </Link>,
+          <Link to="/register" key="signup">
             <MenuItem>
               <IconButton
                 size="large"
@@ -222,10 +222,11 @@ export default function Header() {
               <p>Signup</p>
             </MenuItem>
           </Link>
-        </>
+        ]
       )}
     </Menu>
   );
+  
 
   return (
     <Box sx={{ flexGrow: 1, position:"sticky", top:0, zIndex:1000}}>
@@ -299,7 +300,7 @@ export default function Header() {
                 <StyledLink
                   to="/register"
                   onClick={() => setActiveButton("signup")}
-                  active={activeButton === "signup"}
+                  active={activeButton === "signup"? "true" : undefined }
                 >
                   <Typography>Signup</Typography>
                 </StyledLink>
@@ -308,7 +309,7 @@ export default function Header() {
                 <StyledLink
                   to="/login"
                   onClick={() => setActiveButton("login")}
-                  active={activeButton === "login"}
+                  active={activeButton === "login" ? "true" : undefined}
                 >
                   <Typography>Login</Typography>
                 </StyledLink>

@@ -15,13 +15,13 @@ const ProviderHome = () => {
       <div>
         <div className="provider-tabs" style={{ display: "flex", gap: "12px", paddingBottom: "12px", borderBottom: "1px solid rgba(0, 0, 0, 0.12)"}}>
           {tabs.map((tab, index) => (
-            <Button sx={{backgroundColor: selectedTabIndex === index ? 'var(--primary-color)' : null, 
+            <Button key={index} sx={{backgroundColor: selectedTabIndex === index ? 'var(--primary-color)' : null, 
             color: selectedTabIndex === index ? "var(--ternary-color)" : "var(--dark-black)",
             '&:hover': {
               backgroundColor: "var(--secondary-color)",
               color: "var(--ternary-color)"
             },}}
-              variant={selectedTabIndex == index ? "contained" : "outlined"}
+              variant={selectedTabIndex === index ? "contained" : "outlined"}
               onClick={() => setSelectedTabIndex(index)}
             >
               {tab}

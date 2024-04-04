@@ -61,7 +61,7 @@ const Login = () => {
             <TextField
               style={{ marginBottom: "10px" }}
               type="text"
-              id="standard-basic"
+              id="username-input"
               label="Username"
               variant="standard"
               value={username}
@@ -70,7 +70,7 @@ const Login = () => {
             <TextField
               style={{ marginBottom: "10px" }}
               type="password"
-              id="standard-basic"
+              id="password-input"
               label="Password"
               variant="standard"
               value={password}
