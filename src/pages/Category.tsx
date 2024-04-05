@@ -66,7 +66,6 @@ const Category = () => {
       undefined,
       `?category=${paramToCategoryEnum(categoryName)}`
     );
-    console.log(data);
     setProviderList(data?.data?.providers);
   };
 

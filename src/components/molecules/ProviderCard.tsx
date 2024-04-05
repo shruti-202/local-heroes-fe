@@ -4,26 +4,10 @@ import dayjs from "dayjs";
 import { Service } from "../../pages/Category";
 import apiCall from "../../utils/apiUtils";
 import API_ENUM from "../../enum/API_ENUM";
-import {
-  DatePicker,
-  LocalizationProvider,
-  TimePicker,
-} from "@mui/x-date-pickers-pro";
+import { DatePicker, LocalizationProvider, TimePicker } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Modal,
-  Radio,
-  RadioGroup,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, TextField, Tooltip, Typography } from "@mui/material";
 
 const colorPalette = ["#cdb4db", "#ffc8dd", "#a2d2ff", "#a8dadc", "#e7c6ff"];
 
@@ -240,7 +224,7 @@ const ProviderCard = ({
             {logoLetter}
           </div>
           <div>
-            <p style={{ fontSize: "18px", fontWeight: "bold" }}>
+            <p style={{ fontSize: "16px", fontWeight: "bold" }}>
               {name}
               {availability === undefined && (
                 <Tooltip
@@ -258,7 +242,7 @@ const ProviderCard = ({
             </p>
           </div>
         </div>
-        <div style={{ fontSize: "18px", fontWeight: "bold" }}>{phone}☎️</div>
+        <div style={{ fontSize: "16px", fontWeight: "bold" }}>{phone}☎️</div>
       </div>
       {showService &&
         services.map((service: any, idx: number) => (
