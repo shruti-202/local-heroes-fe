@@ -187,7 +187,7 @@ const ProviderCard = ({
           });
           setPaymentMode("");
           setBookingStep(1);
-        }, 5000);
+        }, 7000);
       }
     } catch (error) {
       setTimeout(() => {
@@ -203,7 +203,7 @@ const ProviderCard = ({
         });
         setPaymentMode("");
         setBookingStep(1);
-      }, 5000);
+      }, 7000);
     }
   };
 
@@ -560,22 +560,22 @@ const ProviderCard = ({
                         Date & Time:
                       </div>
                       <div className="booking-details-row-values">
-                        {selectedDate && (
+                        {selectedDate ? (
                           <>
                             {dayjs(selectedDate).format("DD-MM-YYYY")}
                             {(selectedStartTime || selectedEndTime) && ", "}
-                            {selectedStartTime && selectedEndTime ? (
-                              <>
-                                <span>{selectedStartTime}</span> -{" "}
-                                <span>{selectedEndTime}</span>
-                              </>
-                            ) : selectedStartTime ? (
-                              <span>{selectedStartTime}</span>
-                            ) : (
-                              <span>{selectedEndTime}</span>
-                            )}
                           </>
-                        )}
+                        ) : null}
+                        {selectedStartTime && selectedEndTime ? (
+                          <>
+                            <span>{selectedStartTime}</span> -{" "}
+                            <span>{selectedEndTime}</span>
+                          </>
+                        ) : selectedStartTime ? (
+                          <span>{selectedStartTime}</span>
+                        ) : selectedEndTime ? (
+                          <span>{selectedEndTime}</span>
+                        ) : null}
                       </div>
                     </div>
                     <div className="booking-details-row">
