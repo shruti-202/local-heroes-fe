@@ -37,17 +37,17 @@ const ProviderRequestCard = ({
           </div>
         </div>
         <div className="provider-request-card-head-right">
-          <div className="booking-details">
-            <div className="booking-details-row">
-              <p className="booking-details-row-key">📌</p>
+          <div className="provider-booking-details">
+            <div className="provider-booking-details-row">
+              <p className="provider-booking-details-row-key">📌</p>
               <p>{serviceType}</p>
             </div>
-            <div className="booking-details-row">
-              <p className="booking-details-row-key">⏰</p>
+            <div className="provider-booking-details-row">
+              <p className="provider-booking-details-row-key">⏰</p>
               <p>{dateTime}</p>
             </div>
-            <div className="booking-details-row">
-              <p className="booking-details-row-key">🏠</p>
+            <div className="provider-booking-details-row">
+              <p className="provider-booking-details-row-key">🏠</p>
               <p>{renderAddressDetails()}</p>
             </div>
           </div>

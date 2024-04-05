@@ -35,7 +35,7 @@ const ServiceCard = ({ service, handleUserServiceSelection }: any) => {
         onClick={handleServiceCard}
       >
         <div>
-          <p style={{ fontSize: "12x", fontWeight: 600 }}>{service.title}</p>
+          <p style={{ fontSize: "14px", fontWeight: 600 }}>{service.title}</p>
           <p style={{ fontSize: "14px", color: "var(--light-black)" }}>
             {service.description}
           </p>

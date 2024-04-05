@@ -54,13 +54,13 @@
   flex-grow: 1;
 }
 
-.booking-details-row {
+.provider-booking-details-row {
   display: flex;
   align-items: flex-start;
   margin-bottom: 2px;
 }
 
-.booking-details-row-key {
+.provider-booking-details-row-key {
   font-weight: 600;
 }
 
