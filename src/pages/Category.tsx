@@ -76,7 +76,7 @@ const Category = () => {
   return (
     <Container maxWidth="sm">
       <div>
-        {providerList.map((provider, idx) => (
+        {providerList && providerList.map((provider, idx) => (
           <ProviderCard
             key={idx}
             idx={idx}
