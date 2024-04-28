@@ -1,19 +1,18 @@
 import { Button, Card, FormControl, TextField, Typography } from "@mui/material";
 import Container from "../components/atoms/Container";
-import React, { useContext } from "react";
+import { useContext, useState } from "react";
 import apiCall from "../utils/apiUtils";
 import API_ENUM from "../enum/API_ENUM";
-import { Navigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const Login = () => {
   const { setUserInfo } = useContext(UserContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [redirectToHome, setRedirectToHome] = React.useState(false);
-
-  if (redirectToHome) return <Navigate to={"/"} />;
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleUsernameChange = (ev: any) => {
     setUsername(ev.target.value);
@@ -24,17 +23,35 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
-    const data = await apiCall(API_ENUM.LOGIN, { username, password });
+    try {
+      const data = await apiCall(API_ENUM.LOGIN, { username, password });
 
-    if (data?.success) {
-      setUserInfo({
-        userId: data.data.userId,
-        username: data.data.username,
-        email: data.data.email,
-        phone: data.data.phone,
-        type: data.data.type,
-      });
-      setRedirectToHome(true);
+      if (data?.success) {
+        setUserInfo({
+          userId: data.data.userId,
+          username: data.data.username,
+          email: data.data.email,
+          phone: data.data.phone,
+          type: data.data.type,
+        });
+        const { state } = location;
+        const redirectTo = state?.from ? state.from : "/";
+
+        if (redirectTo === "/login" || redirectTo === "/register") {
+          if (state?.from === "/category") {
+            navigate("/category");
+          } else {
+            navigate("/");
+          }
+        } else {
+          navigate(redirectTo);
+        }
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+      } else {
+        console.error("An error occurred:", error);
+      }
     }
   };
 
@@ -43,7 +60,7 @@ const Login = () => {
       <div style={{ display: "flex", height: "90vh" }}>
         <Card
           variant="outlined"
-          sx={{ padding: "10px", margin: "auto", minWidth: "360px" }}
+          sx={{ padding: "10px", margin: "auto", width: "330px" }}
         >
           <FormControl fullWidth>
             <Typography
@@ -64,6 +81,7 @@ const Login = () => {
               id="username-input"
               label="Username"
               variant="standard"
+              autoComplete="current-username"
               value={username}
               onChange={handleUsernameChange}
             />
@@ -73,6 +91,7 @@ const Login = () => {
               id="password-input"
               label="Password"
               variant="standard"
+              autoComplete="current-password"
               value={password}
               onChange={handlePasswordChange}
             />
@@ -84,7 +103,7 @@ const Login = () => {
                   backgroundColor: "var(--secondary-color)",
                 },
               }}
-              onClick={handleSubmit}
+              onClick={ handleSubmit }
               variant="contained"
             >
               Login
