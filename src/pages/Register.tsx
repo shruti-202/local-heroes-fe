@@ -1,16 +1,16 @@
-import React from "react";
+import { useState } from "react";
 import { Button, Card, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import Container from "../components/atoms/Container";
 import apiCall from "../utils/apiUtils";
 import API_ENUM from "../enum/API_ENUM";
 
 const Register = () => {
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [phone, setPhone] = React.useState("");
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [userType, setUserType] = React.useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("");
 
   const handleNameChange = (ev: any) => {
     setName(ev.target.value);
@@ -63,7 +63,7 @@ const Register = () => {
       <div style={{ display: "flex", height: "90vh" }}>
         <Card
           variant="outlined"
-          sx={{ padding: "10px", margin: "auto", minWidth: "360px" }}
+          sx={{ padding: "10px", margin: "auto", width: "330px" }}
         >
           <FormControl fullWidth>
             <Typography
