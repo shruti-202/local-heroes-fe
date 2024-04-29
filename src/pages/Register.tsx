@@ -3,6 +3,7 @@ import { Button, Card, FormControl, FormControlLabel, FormLabel, Radio, RadioGro
 import Container from "../components/atoms/Container";
 import apiCall from "../utils/apiUtils";
 import API_ENUM from "../enum/API_ENUM";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -54,7 +55,6 @@ const Register = () => {
       password,
       userType,
     });
-
     if (data?.success) resetForm();
   };
 
@@ -157,6 +157,12 @@ const Register = () => {
             >
               SIGN UP
             </Button>
+            <div style={{marginTop:"10px",textAlign:"center"}}>
+          Already have an account ? {""}
+          <Link to="/login" className="login-link">
+            <span style={{textDecoration:"underline"}}>LOGIN</span>
+          </Link>
+        </div>
           </FormControl>
         </Card>
       </div>

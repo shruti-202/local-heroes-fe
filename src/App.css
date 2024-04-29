@@ -4,7 +4,9 @@
   --ternary-color: #ffffff;
   --dark-black: #000000;
   --light-black: #565656;
-  --light-blue: #4285ea
+  --light-blue: #4285ea;
+  --light-grey: #f0f0f0;
+  --lighter-grey: #f9f9f9
 }
 .booking-details{
   margin-top: 12px;
@@ -22,6 +24,5 @@
   .carousel-img {
     object-position: 50% 50%;
   }
-  
 }
 

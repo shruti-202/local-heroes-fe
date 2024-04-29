@@ -5,6 +5,12 @@ import apiCall from "../utils/apiUtils";
 import API_ENUM from "../enum/API_ENUM";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { Link } from "react-router-dom";
+
+type Credentials = {
+  username: string;
+  password: string;
+};
 
 const Login = () => {
   const { setUserInfo } = useContext(UserContext);
@@ -21,11 +27,15 @@ const Login = () => {
   const handlePasswordChange = (ev: any) => {
     setPassword(ev.target.value);
   };
+  
+  const guestCredential = {
+    username: "Sami12345",
+    password: "Sami@12345",
+  };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (credentials: Credentials) => {
     try {
-      const data = await apiCall(API_ENUM.LOGIN, { username, password });
-
+      const data = await apiCall(API_ENUM.LOGIN, credentials);
       if (data?.success) {
         setUserInfo({
           userId: data.data.userId,
@@ -55,6 +65,12 @@ const Login = () => {
     }
   };
 
+  const handleGuestLogin = () => {
+    setUsername(guestCredential.username);
+    setPassword(guestCredential.password);
+    handleSubmit(guestCredential);
+  };
+
   return (
     <Container>
       <div style={{ display: "flex", height: "90vh" }}>
@@ -82,8 +98,9 @@ const Login = () => {
               label="Username"
               variant="standard"
               autoComplete="current-username"
-              value={username}
-              onChange={handleUsernameChange}
+              value={username} 
+              onChange={handleUsernameChange} 
+              
             />
             <TextField
               style={{ marginBottom: "10px" }}
@@ -92,8 +109,8 @@ const Login = () => {
               label="Password"
               variant="standard"
               autoComplete="current-password"
-              value={password}
-              onChange={handlePasswordChange}
+              value={password} 
+              onChange={handlePasswordChange} 
             />
             <Button
               sx={{
@@ -103,11 +120,32 @@ const Login = () => {
                   backgroundColor: "var(--secondary-color)",
                 },
               }}
-              onClick={ handleSubmit }
+              onClick={() => handleSubmit({ username, password })}
               variant="contained"
             >
               Login
             </Button>
+            <Button
+              sx={{
+                backgroundColor: "var(--light-grey)",
+                border:"1px solid var(--primary-color) ",
+                color: "var(--dark-black)",
+                "&:hover": {
+                  backgroundColor: "var(--lighter-grey)",
+                },
+                marginTop: "10px",
+              }}
+              onClick={handleGuestLogin}
+              variant="contained"
+            >
+              Guest Login
+            </Button>
+            <div style={{marginTop:"10px",textAlign:"center"}}>
+            Don't have an Account ? {""}
+          <Link to="/register" className="signin-link">
+            <span style={{textDecoration:"underline"}}>SIGN UP</span>
+          </Link>
+        </div>
           </FormControl>
         </Card>
       </div>
